@@ -19,6 +19,12 @@
     <p class="text text-success">@TempData["ItemSuccessfully Created"]</p>
 }
 <h1>Products</h1>
+<form asp-action="index" asp-controller="Product" method="get">
+    <label>Search Product</label>
+    <input type="text" name="filter" id="filter" placeholder="Product Name" />
+    <input type="submit" value="Search" />
+
+</form>
 <table class="table table-light table-striped">
     <thead>
         <tr>

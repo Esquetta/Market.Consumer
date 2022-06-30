@@ -23,13 +23,14 @@ namespace Market.Consumer.Controllers
         {
             this.mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filter)
         {
             using (HttpClient httpClient = new HttpClient())
             {
                 var reponse = await httpClient.GetStringAsync(Url + "Product/GetAllProducts");
                 var products = System.Text.Json.JsonSerializer.Deserialize<List<Product>>(reponse, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                var model = mapper.Map<List<ProductListViewDto>>(products);
+                var mappedProducts = mapper.Map<List<ProductListViewDto>>(products);
+                var model = filter == null ? mappedProducts : mappedProducts.Where(x => x.productName == filter).ToList();
                 return View(model);
             }
         }
