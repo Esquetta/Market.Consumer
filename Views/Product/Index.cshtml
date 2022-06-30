@@ -5,6 +5,10 @@
 }
 
 <a class="btn btn-primary" asp-action="CreateProduct" asp-controller="Product">Create Product</a>
+@if (TempData["ItemSuccessfully Deleted"]!=null)
+{
+    <p class="text text-success">@TempData["ItemSuccessfully Deleted"]</p>
+}
 <h1>Products</h1>
 <table class="table table-light table-striped">
     <thead>
