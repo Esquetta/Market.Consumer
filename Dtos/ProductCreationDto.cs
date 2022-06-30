@@ -11,12 +11,16 @@ namespace Market.Consumer.Dtos
         [Required]
         public string ProductName { get; set; }
         [Required]
+        
         public int categoryID { get; set; }
         [Required]
+        [Display(Name = "Quantity Per Unit")]
         public string quantityPerUnit { get; set; }
         [Required]
+        [Display(Name = "Unit Price")]
         public decimal unitPrice { get; set; }
         [Required]
+        [Display(Name = "Units In Stock")]
         public short unitsInStock { get; set; }
 
     }

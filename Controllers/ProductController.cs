@@ -145,7 +145,7 @@ namespace Market.Consumer.Controllers
                 var result = await updateClient.SendAsync(httpMessage);
                 if (result.IsSuccessStatusCode)
                 {
-                    TempData.Add("ItemSuccessfully Created", "Item successfully deleted");
+                    TempData.Add("ItemSuccessfully Created", "Item successfully created");
                     return RedirectToAction("index");
                 }
             }

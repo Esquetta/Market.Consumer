@@ -5,13 +5,18 @@
 }
 
 <a class="btn btn-primary" asp-action="AddProduct" asp-controller="Product">Create Product</a>
-@if (TempData["ItemSuccessfully Deleted"] != null) 
+@if (TempData["ItemSuccessfully Deleted"] != null)
 {
-<p class="text text-success">@TempData["ItemSuccessfully Deleted"]</p>
+    <p class="text text-success">@TempData["ItemSuccessfully Deleted"]</p>
 }
-@if (TempData["ItemSuccessfully Updated"] != null) 
+@if (TempData["ItemSuccessfully Updated"] != null)
 {
-<p class="text text-success">@TempData["ItemSuccessfully Updated"]</p>
+    <p class="text text-success">@TempData["ItemSuccessfully Updated"]</p>
+}
+
+@if (TempData["ItemSuccessfully Created"] != null)
+{
+    <p class="text text-success">@TempData["ItemSuccessfully Created"]</p>
 }
 <h1>Products</h1>
 <table class="table table-light table-striped">
