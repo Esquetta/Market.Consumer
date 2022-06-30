@@ -12,7 +12,7 @@ namespace Market.Consumer.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Product, ProductListViewDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName));
+            CreateMap<Product, ProductListViewDto>().ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src. category.categoryName));
         }
     }
 }

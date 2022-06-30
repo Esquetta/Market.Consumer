@@ -25,7 +25,7 @@ namespace Market.Consumer.Controllers
             using (HttpClient httpClient = new HttpClient())
             {
                 var reponse = await httpClient.GetStringAsync(Url + "Product/GetAllProducts");
-                var products = JsonSerializer.Deserialize<List<Product>>(reponse);
+                var products = JsonSerializer.Deserialize<List<Product>>(reponse,new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                 var model = mapper.Map<List<ProductListViewDto>>(products);
                 return View(model);
             }

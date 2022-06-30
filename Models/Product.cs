@@ -13,7 +13,7 @@ namespace Market.Consumer.Models
         public string productName { get; set; }
 
         public int categoryID { get; set; }
-        public Category Category { get; set; }
+        public Category category { get; set; }
 
         public string quantityPerUnit { get; set; }
 

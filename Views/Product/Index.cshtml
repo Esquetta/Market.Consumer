@@ -1,0 +1,36 @@
+﻿@model List<ProductListViewDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a class="btn btn-primary" asp-action="CreateProduct" asp-controller="Product">Create Product</a>
+<h1>Products</h1>
+<table class="table table-light table-striped">
+    <thead>
+        <tr>
+            <td scope="col">ProductId</td>
+            <td scope="col">Product Name</td>
+            <td scope="col">CategoryName</td>
+            <td scope="col">QuantityPerUnit</td>
+            <td scope="col">unitPrice</td>
+            <td scope="col">unitsInStock</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.productID</td>
+                <td>@item.productName</td>
+                <td>@item.CategoryName</td>
+                <td>@item.quantityPerUnit</td>
+                <td>@item.unitPrice</td>
+                <td>@item.unitsInStock</td>
+                <td><a class="btn btn-warning" asp-action="UpdateProduct" asp-controller="Product" asp-route-id="@item.productID">Update</a></td>
+                <td><a class="btn btn-danger" asp-action="DeleteProduct" asp-controller="Product" asp-route-id="@item.productID">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+""
