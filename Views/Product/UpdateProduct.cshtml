@@ -1,0 +1,38 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "UpdateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Update Product</h1>
+
+<form asp-action="UpdateProduct" asp-controller="Product"  method="post">
+    <input  type="hidden" asp-for="productID"/>
+    <div class="form-group">
+        <span asp-validation-for="@Model.productName"></span>
+        <label asp-for="productName"></label>
+        <input asp-for="productName" />
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.categoryID"></span>
+        <label asp-for="category.categoryName"></label>
+        <select asp-for="categoryID" asp-items="ViewBag.categoryList"></select>
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.quantityPerUnit"></span>
+        <label asp-for="quantityPerUnit"></label>
+        <input asp-for="quantityPerUnit" />
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.unitPrice"></span>
+        <label asp-for="unitPrice"></label>
+        <input asp-for="unitPrice" />
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.unitsInStock"></span>
+        <label asp-for="unitsInStock"></label>
+        <input asp-for="unitsInStock" />
+    </div>
+    <input class="btn btn-primary" type="submit" value="update"/>
+</form>
+

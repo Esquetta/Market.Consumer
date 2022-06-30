@@ -2,6 +2,7 @@
 using Market.Consumer.Dtos;
 using Market.Consumer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,24 +41,71 @@ namespace Market.Consumer.Controllers
                 var product = JsonSerializer.Deserialize<Product>(reponse, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                 if (product != null)
                 {
-                    using (HttpClient deleteClient =new HttpClient())
+                    using (HttpClient deleteClient = new HttpClient())
                     {
-                        var data =JsonSerializer.Serialize(product);
-                        var httpMessage = new HttpRequestMessage(HttpMethod.Delete, Url+"Product/DeleteProduct")
+                        var data = JsonSerializer.Serialize(product);
+                        var httpMessage = new HttpRequestMessage(HttpMethod.Delete, Url + "Product/DeleteProduct")
                         {
                             Content = new StringContent(data, Encoding.UTF8, "application/json")
                         };
                         var result = await deleteClient.SendAsync(httpMessage);
                         if (result.IsSuccessStatusCode)
                         {
-                            TempData.Add("ItemSuccessfully Deleted","Item successfully deleted");
+                            TempData.Add("ItemSuccessfully Deleted", "Item successfully deleted");
                             return RedirectToAction("index");
                         }
                     }
-                    
+
                 }
                 return RedirectToAction("index");
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> UpdateProduct(int id)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var reponse = await httpClient.GetStringAsync(Url + "Product/GetProductById?id=" + id);
+                var product = JsonSerializer.Deserialize<Product>(reponse, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                var catgoryRequest = await httpClient.GetStringAsync(Url + "Category/GetCategories");
+                var categoires = JsonSerializer.Deserialize<List<Category>>(catgoryRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                SelectList categoryList = new SelectList(categoires, "categoryId", "categoryName");
+                ViewBag.categoryList = categoryList;
+                return View(product);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    var catgoryRequest = await httpClient.GetStringAsync(Url + "Category/GetCategories");
+                    var categoires = JsonSerializer.Deserialize<List<Category>>(catgoryRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    SelectList categoryList = new SelectList(categoires, "categoryId", "categoryName");
+                    ViewBag.categoryList = categoryList;
+                }
+                return View();
+            }
+            using (HttpClient updateClient = new HttpClient())
+            {
+                var data = JsonSerializer.Serialize(product);
+                var httpMessage = new HttpRequestMessage(HttpMethod.Put, Url + "Product/UpdateProduct")
+                {
+                    Content = new StringContent(data, Encoding.UTF8, "application/json")
+                };
+                var result = await updateClient.SendAsync(httpMessage);
+                if (result.IsSuccessStatusCode)
+                {
+                    TempData.Add("ItemSuccessfully Updated", "Item successfully deleted");
+                    return RedirectToAction("index");
+                }
+            }
+            return View();
+
+
         }
     }
 }
