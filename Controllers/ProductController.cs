@@ -1,4 +1,6 @@
-﻿using Market.Consumer.Models;
+﻿using AutoMapper;
+using Market.Consumer.Dtos;
+using Market.Consumer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,13 +15,19 @@ namespace Market.Consumer.Controllers
     {
 
         private readonly string Url = "https://localhost:44374/";
+        private IMapper mapper;
+        public ProductController(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
         public async Task<IActionResult> Index()
         {
             using (HttpClient httpClient = new HttpClient())
             {
                 var reponse = await httpClient.GetStringAsync(Url + "Product/GetAllProducts");
                 var products = JsonSerializer.Deserialize<List<Product>>(reponse);
-                return View(products);
+                var model = mapper.Map<List<ProductListViewDto>>(products);
+                return View(model);
             }
             return View();
 
