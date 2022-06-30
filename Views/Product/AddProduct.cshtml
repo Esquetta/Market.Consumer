@@ -1,0 +1,37 @@
+﻿@model  ProductCreationDto
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Product</h1>
+
+<form asp-action="AddProduct" asp-controller="Product" method="post">
+
+    <div class="form-group">
+        <span asp-validation-for="@Model.ProductName"></span>
+        <label asp-for="ProductName"></label>
+        <input asp-for="ProductName" />
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.categoryID"></span>
+        <label>Category Name</label>
+        <select asp-for="categoryID" asp-items="ViewBag.categoryList"></select>
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.quantityPerUnit"></span>
+        <label asp-for="quantityPerUnit"></label>
+        <input asp-for="quantityPerUnit" />
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.unitPrice"></span>
+        <label asp-for="unitPrice"></label>
+        <input asp-for="unitPrice" />
+    </div>
+    <div class="form-group">
+        <span asp-validation-for="@Model.unitsInStock"></span>
+        <label asp-for="unitsInStock"></label>
+        <input asp-for="unitsInStock" />
+    </div>
+    <input class="btn btn-primary" type="submit" value="update" />
+</form>

@@ -107,5 +107,49 @@ namespace Market.Consumer.Controllers
 
 
         }
+        [HttpGet]
+        public async Task<IActionResult> AddProduct()
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var catgoryRequest = await httpClient.GetStringAsync(Url + "Category/GetCategories");
+                var categoires = JsonSerializer.Deserialize<List<Category>>(catgoryRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                SelectList categoryList = new SelectList(categoires, "categoryId", "categoryName");
+                ViewBag.categoryList = categoryList;
+            }
+            return View();
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(ProductCreationDto productCreationDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    var catgoryRequest = await httpClient.GetStringAsync(Url + "Category/GetCategories");
+                    var categoires = JsonSerializer.Deserialize<List<Category>>(catgoryRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    SelectList categoryList = new SelectList(categoires, "categoryId", "categoryName");
+                    ViewBag.categoryList = categoryList;
+                }
+                return View();
+            }
+            using (HttpClient updateClient = new HttpClient())
+            {
+                var product = mapper.Map<Product>(productCreationDto);
+                var data = JsonSerializer.Serialize(product);
+                var httpMessage = new HttpRequestMessage(HttpMethod.Post, Url + "Product/CreateProduct")
+                {
+                    Content = new StringContent(data, Encoding.UTF8, "application/json")
+                };
+                var result = await updateClient.SendAsync(httpMessage);
+                if (result.IsSuccessStatusCode)
+                {
+                    TempData.Add("ItemSuccessfully Created", "Item successfully deleted");
+                    return RedirectToAction("index");
+                }
+            }
+            return View(productCreationDto);
+        }
     }
 }
