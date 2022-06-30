@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 
 namespace Market.Consumer.Models
 {
-    public class Product 
+    public class Product
     {
+        public int productID { get; set; }
 
-        public int ProductID { get; set; }
-        [Required]
-        public string ProductName { get; set; }
+        public string productName { get; set; }
 
-        public int CategoryID { get; set; }
+        public int categoryID { get; set; }
         public Category Category { get; set; }
 
-        public string QuantityPerUnit { get; set; }
+        public string quantityPerUnit { get; set; }
 
-        public decimal UnitPrice { get; set; }
+        public decimal unitPrice { get; set; }
 
-        public short UnitsInStock { get; set; }
+        public short unitsInStock { get; set; }
 
     }
 }
